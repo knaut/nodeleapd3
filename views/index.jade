@@ -1,0 +1,55 @@
+extends layout
+
+block content
+	div(data-ui='frame')
+		#left(data-ui='drawer')
+			div(data-ui='collapsible')
+				div(data-ui='heading') Fingers
+				div(data-ui='content')
+					div(data-ui='subheading') Color Channels
+					.btn-toolbar
+						.btn-group(data-ui='multi-toggle')
+						button#r.btn(data-ui-btn='data-ui-btn', data-ui='toggle', data-ui-state='active') Red
+						button#g.btn(data-ui-btn='data-ui-btn', data-ui='toggle', data-ui-state='active') Green
+						button#b.btn(data-ui-btn='data-ui-btn', data-ui='toggle', data-ui-state='active') Blue
+
+					div(data-ui='subheading') Bar Lengths
+					.btn-group-vertical(data-ui='toggle-group')
+						button#length.btn(data-ui='toggle', data-ui-btn='data-ui-btn', data-ui-state='active') Finger Length
+						button#speed.btn(data-ui='toggle', data-ui-btn='data-ui-btn', data-ui-state='') Finger Speed
+						button#origin.btn(data-ui='toggle', data-ui-btn='data-ui-btn', data-ui-state='') Distance from Origin
+					
+					div(data-ui='subheading') Bar Colors
+					.btn-group-vertical(data-ui='toggle-group')
+						button#tipSpeed.btn(data-ui='toggle', data-ui-btn='data-ui-btn', data-ui-state='') Fingertip Speed
+						button#tipPosition.btn(data-ui='toggle', data-ui-btn='data-ui-btn', data-ui-state='active') Fingertip Position
+
+		#controls
+			button.icon.parameters(href='#left', data-ui='toggle', data-ui-target='drawer')
+				span.text Parameters
+				span.img
+
+	#header
+		h1 Node + Leap + D3
+
+	#finger-panel.data-panel
+		#first-hand.data-panel
+			svg(width='100%', height='400')
+				rect#finger-1.finger-bar(width='75', height='10', fill='#3C3F40', x='0', y='490')
+				rect#finger-2.finger-bar(width='75', height='10', fill='#3C3F40', x='55', y='490')
+				rect#finger-3.finger-bar(width='75', height='10', fill='#3C3F40', x='110', y='490')
+				rect#finger-4.finger-bar(width='75', height='10', fill='#3C3F40', x='165', y='490')
+				rect#finger-5.finger-bar(width='75', height='10', fill='#3C3F40', x='220', y='490')
+		#second-hand.data-panel
+			svg(width='100%', height='400')
+				rect#finger-6.finger-bar(width='75', height='10', fill='#3C3F40', x='0', y='490')
+				rect#finger-7.finger-bar(width='75', height='10', fill='#3C3F40', x='55', y='490')
+				rect#finger-8.finger-bar(width='75', height='10', fill='#3C3F40', x='110', y='490')
+				rect#finger-9.finger-bar(width='75', height='10', fill='#3C3F40', x='165', y='490')
+				rect#finger-10.finger-bar(width='75', height='10', fill='#3C3F40', x='220', y='490')
+	
+	#footer
+	
+	script(type='text/javascript')
+		// initialize
+		main.init();

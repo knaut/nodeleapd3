@@ -1,0 +1,47 @@
+basicGr( firstColor = #ffffff, secondColor = #f1f1f1 )
+	background firstColor /* Old browsers */
+	background -moz-linear-gradient( top, firstColor 0%, secondColor 100%) /* FF3.6+ */
+	background -webkit-gradient(linear, left top, left bottom, color-stop(0%, firstColor), color-stop(100%, secondColor)) /* Chrome,Safari4+ */
+	background -webkit-linear-gradient(	top, firstColor 0%, secondColor 100%) /* Chrome10+,Safari5.1+ */
+	background -o-linear-gradient(top, firstColor 0%, secondColor 100%) /* Opera 11.10+ */
+	background -ms-linear-gradient(top, firstColor 0%, secondColor 100%) /* IE10+ */
+
+// box fx
+borderRads( radii = 5px )
+	-webkit-border-radius radii
+	-moz-border-radius radii
+	-o-border-radius radii
+	border-radius radii
+
+borderRadsSpecify( radiusTopLeft = 0, radiusTopRight = 0, radiusBottomRight = 0, radiusBottomLeft = 0 )
+	-webkit-border-top-left-radius radiusTopLeft
+	-moz-border-top-left-radius radiusTopLeft
+	border-top-left-radius radiusTopLeft
+	-webkit-border-top-right-radius radiusTopRight
+	-moz-border-top-right-radius radiusTopRight
+	border-top-right-radius radiusTopRight
+	-webkit-border-bottom-right-radius radiusBottomRight
+	-moz-border-bottom-right-radius radiusBottomRight
+	border-bottom-right-radius radiusBottomRight
+	-webkit-border-bottom-left-radius radiusBottomLeft
+	-moz-border-bottom-left-radius radiusBottomLeft
+	border-bottom-left-radius radiusBottomLeft
+
+boxShadow( shadow = 0 2px 4px rgba(0, 0, 0, 0.5))
+	-webkit-box-shadow shadow
+	-moz-box-shadow shadow
+	-o-box-shadow shadow
+	box-shadow shadow
+
+boxShadows( shadows )
+	-webkit-box-shadow shadows
+	-moz-box-shadow shadows
+	-o-box-shadow shadows
+	box-shadow shadows
+
+transition( $arguments )
+	-webkit-transition $arguments
+	-moz-transition $arguments
+	-ms-transition $arguments
+	-o-transition $arguments
+	transition $arguments

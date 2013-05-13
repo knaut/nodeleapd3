@@ -1,0 +1,137 @@
+@import "ui_kit.styl"
+@import "ui_widgets.styl"
+@import "svg.styl"
+
+// vars
+vladGray = #3C3F40
+vladBlue = #389BA6
+vladLightBlue = #6CCED9
+vladOrange = #D9A13B
+vladWhite = #F2F2F2
+vladOffWhite = #C7C7C7
+
+// darker color scheme
+darkGray = #333
+gray = #888
+bright = #eee
+textHilight = 0 1px 0 rgba(255, 255, 255, 0.4)
+textShadow = 0 -1px 0 rgba(0, 0, 0, 0.4)
+width = 250px
+
+// utilities
+
+// mixins
+HelveticaLight()
+	font-family "HelveticaNeue-Light"
+	font-weight lighter !important
+
+HelveticaUltraLight()
+	font-family "HelveticaNeue-UltraLight" !important
+	font-weight lighter !important
+
+bar()
+	padding 10px 15px
+	color bright
+	text-shadow textShadow
+
+section()
+	color vladGray
+	min-height 250px
+	h3
+		bar()
+		boxShadow( 0 2px 3px rgba(0, 0, 0, 0.4))
+		HelveticaLight()
+		margin 0
+	
+
+// App Styling
+html, body
+	height 100%
+	padding 0
+	margin 0
+
+body
+	color vladWhite
+	basicGr(#121212, #000)
+
+#header
+	//@include basicGr(#000, #111)
+	position absolute
+	top 0
+	width 400px
+	left 50%
+	margin-left -200px
+	height 64px
+	//z-index 2
+	h1
+		HelveticaUltraLight()
+		color bright
+		text-shadow textShadow
+		text-align center
+		height 64px
+		position relative
+		z-index 2
+
+.floating-elem
+	// elements that need to float above the ui frame
+	position relative
+	z-index 2
+
+// Visuals
+#finger-panel
+	basicGr(#000, #111)
+	width 80%
+	height 100%
+	margin 0 auto
+	padding 0 10% 25px
+
+#finger-panel .data-panel
+	width 50%
+	height 400px
+	-webkit-box-reflect below 20px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(15%, transparent), to(rgba(255, 255, 255, 0.5)))
+	&:nth-child(1)
+		float left
+	&:nth-child(2)
+		float right
+
+
+// floating buttons/icons
+button.icon
+	// clear button styles
+	border 0
+	display block
+	width 64px
+	height 64px
+	opacity 0.6
+	.text 
+		display none
+	transition(opacity .3s ease-in-out)
+	&:hover
+		opacity 1.0
+	// bring on the icons
+	&.parameters
+		background url('/images/icons/64_white/menu-2.png') no-repeat
+	position relative
+	z-index 3
+
+button.icon[data-ui-state="toggled"]
+		opacity 1.0
+
+// controls
+#controls
+	height 64px
+	ul
+		margin 0
+		padding 0
+
+
+button#r[data-ui-state="active"]
+	color #B24009
+
+
+button#g[data-ui-state="active"]
+	color #3DB212
+
+
+button#b[data-ui-state="active"]
+	color #3840FF

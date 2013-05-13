@@ -1,0 +1,12 @@
+node leap d3 *
+
+• tasks
+transcode from html to jade
+sass to stylus
+rewrite toggle widgets with jquery ui
+
+2* items
+server -> 
+- nodejs
+- recieves leap data, visualizes it, sends osc message
+client - 
