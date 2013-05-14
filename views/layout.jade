@@ -12,7 +12,16 @@ html
 			socket.on('news', function (data) {
 				console.log(data);
 				socket.emit('my other event', { my: 'data' });
+
+				
 			});
+
+			socket.on('connection', function(client) {
+				var msg = new osc.Message('/oscAddress', 'Message for you sir!');
+				client.send(msg);
+			});
+
+			
 
 	body
 		block content
