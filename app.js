@@ -3,13 +3,43 @@
  * Module dependencies.
  */
 
-var express = require('express')
-  , routes = require('./routes')
-  , user = require('./routes/user')
-  , http = require('http')
-  , path = require('path');
+// var express = require('express')
+//   , routes = require('./routes')
+//   , user = require('./routes/user')
+//   , http = require('http')
+//   , path = require('path')
+//   , io = require('socket.io')
+//   , osc = require('node-osc');
+
+// var app = express();
+
+// var express = require('express'),
+	// routes = require('./routes'),
+	// user = require('./routes/user'),
+	// path = require('path'),
+// 	http = require('http'),
+// 	server = http.createServer(app),
+// 	io = require('socket.io').listen(server);
+
+var express = require('express'),
+	http = require('http'),
+	routes = require('./routes'),
+	user = require('./routes/user'),
+	path = require('path');
 
 var app = express();
+var server = http.createServer(app);
+var io = require('socket.io');
+var io = io.listen(server);
+
+
+// io stuff
+io.sockets.on('connection', function (socket) {
+  socket.emit('news', { hello: 'world' });
+  socket.on('my other event', function (data) {
+    console.log(data);
+  });
+});
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -30,10 +60,18 @@ if ('development' == app.get('env')) {
 
 app.get('/', routes.index);
 app.get('/users', user.list);
+
+// does this do anything?
 app.get('/', function(req, res) {
 	res.render('index', { title: 'Express', scripts: ['javascripts/script.js']});
 });
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
+// http.createServer(app).listen(app.get('port'), function(){
+//   console.log('Express server listening on port ' + app.get('port'));
+// });
+
+app.listen( app.get('port'), function() {
+	console.log("Express server listening on port " + app.get('port'));
 });
+
+server.listen(4000);
