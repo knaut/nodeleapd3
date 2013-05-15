@@ -75,6 +75,9 @@ var main = {
 	// scales
 	distanceScale: null,
 	colorScale: null,
+	oscDistScale: null,
+	oscColorScale: null,
+	oscVelScale: null,
 
 	// declare our prototype objects
 
@@ -110,6 +113,11 @@ var main = {
 		// init scales
 		this.distanceScale = d3.scale.linear().domain([0, 500]).range([0, 400]);
 		this.colorScale = d3.scale.linear().domain([-250, 250]).range([0, 255]);
+
+		this.oscDistScale = d3.scale.linear().domain([0, 500]).range([0, 1]);
+		this.oscColorScale = d3.scale.linear().domain([-250, 250]).range([0, 1]);
+		this.oscVelScale = d3.scale.linear().domain([0, 500]).range([0, 1]);
+
 
 		// initialize our dataFilter
 		this.initDataFilter();
@@ -191,15 +199,21 @@ var main = {
 
 				// animate bar height
 				.attr('height', function(d) {
-					if (main.dataFilter.length === "active" ) {  
-						thisData = d.length.toFixed(1) * 4
+					if (main.dataFilter.length === "active" ) {
+
+						thisData = d.length.toFixed(1) * 4;
 
 						return d.length.toFixed(1) * 4 
 					}
 
-					if (main.dataFilter.speed === "active" ) {  
-						thisData = Math.abs( d.tipVelocity[1].toFixed(1) );
-						socket.emit('msg', thisData);
+					if (main.dataFilter.speed === "active" ) { 
+						// store our OSC data locally
+						var thisOscVelData = main.oscVelScale( Math.abs( d.tipVelocity[1].toFixed(1) ) );
+
+						// send it via our socket
+						socket.emit('msg', thisOscVelData);
+
+						// return it for d3 viz
 						return Math.abs( d.tipVelocity[1].toFixed(1) )
 					}
 
