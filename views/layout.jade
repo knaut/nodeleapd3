@@ -8,19 +8,14 @@ html
 			script(src=s)
 
 		script
-			var socket = io.connect('http://localhost');
-			socket.on('news', function (data) {
-				console.log(data);
-				socket.emit('my other event', { my: 'data' });
-
-				
+			// we need a socket on the client to get the message
+			var socket = io.connect('http://localhost');	
+			
+			socket.on('event', function (data) {
+				console.log( data );
+				socket.emit('msg', 1);
 			});
-
-			socket.on('connection', function(client) {
-				var msg = new osc.Message('/oscAddress', 'Message for you sir!');
-				client.send(msg);
-			});
-
+			
 			
 
 	body

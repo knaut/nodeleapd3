@@ -32,17 +32,21 @@ var server = http.createServer(app);
 var io = require('socket.io');
 var io = io.listen(server);
 
-var osc = require('node-osc'),
-	client = new osc.Client('127.0.0.1', 3333);
-
+var osc = require('node-osc');
+var client = new osc.Client('127.0.0.1', 3333);
 
 // io stuff
 io.sockets.on('connection', function (socket) {
 
-	var msg = new osc.Message('/oscAddress', 1);
-	client.send(msg);
+	socket.emit('event', { message: 'emitting!'});
+	
+	socket.on('msg', function (data) {
+		console.log(data);
 
-	console.log(msg);
+		var msg = new osc.Message('/oscAddress', data);
+		
+		client.send(msg);
+	});
 });
 
 // osc stuff
