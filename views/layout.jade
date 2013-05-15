@@ -8,13 +8,7 @@ html
 			script(src=s)
 
 		script
-			// we need a socket on the client to get the message
-			var socket = io.connect('http://localhost');	
 			
-			socket.on('event', function (data) {
-				console.log( data );
-				socket.emit('msg', 1);
-			});
 			
 			
 

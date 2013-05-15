@@ -38,13 +38,14 @@ var client = new osc.Client('127.0.0.1', 3333);
 // io stuff
 io.sockets.on('connection', function (socket) {
 
-	socket.emit('event', { message: 'emitting!'});
+	//socket.emit('event', { message: 'emitting!'});
 	
 	socket.on('msg', function (data) {
 		console.log(data);
 
 		var msg = new osc.Message('/oscAddress', data);
 		
+		console.log(msg);
 		client.send(msg);
 	});
 });

@@ -33,7 +33,12 @@ String.prototype.camelize = function () {
     })
 };
 
-
+// we need a socket on the client to get the message
+var socket = io.connect('http://localhost');				
+socket.on('msg', function (data) {
+	console.log( data );
+	//socket.emit('msg', 1);
+});
 
 
 // global variables from the leap sample
@@ -187,10 +192,14 @@ var main = {
 				// animate bar height
 				.attr('height', function(d) {
 					if (main.dataFilter.length === "active" ) {  
+						thisData = d.length.toFixed(1) * 4
+
 						return d.length.toFixed(1) * 4 
 					}
 
 					if (main.dataFilter.speed === "active" ) {  
+						thisData = Math.abs( d.tipVelocity[1].toFixed(1) );
+						socket.emit('msg', thisData);
 						return Math.abs( d.tipVelocity[1].toFixed(1) )
 					}
 
@@ -203,7 +212,7 @@ var main = {
 						return 400 - d.length.toFixed(1) * 4 
 					}
 
-					if (main.dataFilter.speed === "active" ) {  
+					if (main.dataFilter.speed === "active" ) { 
 						return 400 - Math.abs( d.tipVelocity[1].toFixed(1) )
 					}
 
