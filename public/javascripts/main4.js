@@ -78,6 +78,7 @@ var main = {
 	oscDistScale: null,
 	oscColorScale: null,
 	oscVelScale: null,
+	oscPosScale: null,
 
 	// declare our prototype objects
 
@@ -114,16 +115,18 @@ var main = {
 		this.distanceScale = d3.scale.linear().domain([0, 500]).range([0, 400]);
 		this.colorScale = d3.scale.linear().domain([-250, 250]).range([0, 255]);
 
+		this.oscLengthScale = d3.scale.linear().domain([0, 200]).range([0, 1]);
 		this.oscDistScale = d3.scale.linear().domain([0, 500]).range([0, 1]);
 		this.oscColorScale = d3.scale.linear().domain([-250, 250]).range([0, 1]);
 		this.oscVelScale = d3.scale.linear().domain([0, 500]).range([0, 1]);
+		this.oscPosScale = d3.scale.linear().domain([-250, 250]).range([0, 1]);
 
 
 		// initialize our dataFilter
 		this.initDataFilter();
 
 		// start the leap loop
-		this.leapLoop( 100 );
+		this.leapLoop( 10 );
 
 		// setup the ui
 		ui.setup();
@@ -200,24 +203,38 @@ var main = {
 				// animate bar height
 				.attr('height', function(d) {
 					if (main.dataFilter.length === "active" ) {
+						var thisData = main.oscLengthScale( d.length.toFixed(1) * 4 );
 
-						thisData = d.length.toFixed(1) * 4;
+						var msgName = 'finger' + d.id + 'Msg';
+
+						// send it via our socket
+						socket.emit(msgName, thisData);
 
 						return d.length.toFixed(1) * 4 
 					}
 
 					if (main.dataFilter.speed === "active" ) { 
+
 						// store our OSC data locally
-						var thisOscVelData = main.oscVelScale( Math.abs( d.tipVelocity[1].toFixed(1) ) );
+						var thisData = main.oscVelScale( Math.abs( d.tipVelocity[1].toFixed(1) ) );
+
+						var msgName = 'finger' + d.id + 'Msg';
 
 						// send it via our socket
-						socket.emit('msg', thisOscVelData);
+						socket.emit(msgName, thisData);
 
 						// return it for d3 viz
 						return Math.abs( d.tipVelocity[1].toFixed(1) )
 					}
 
 					if (main.dataFilter.origin === "active" ) {  
+						var thisData = main.oscDistScale( Math.abs( d.tipPosition[1]).toFixed(1));
+
+						var msgName = 'finger' + d.id + 'Msg';
+
+						// send it via our socket
+						socket.emit(msgName, thisData);
+
 						return main.distanceScale(Math.abs( d.tipPosition[1]).toFixed(1));
 					}
 				})
@@ -248,14 +265,35 @@ var main = {
 						// rgb corresponds to xyz
 						if (main.dataFilter.r === "active") {
 							thisR = (Math.abs(d.tipVelocity[0] * 10).toFixed(1));
+
+							var thisRData = main.oscColorScale(Math.abs(d.tipVelocity[0] * 10).toFixed(1));
+
+							var msgName = 'finger' + d.id + 'Msg';
+
+							// send it via our socket
+							socket.emit(msgName, thisRData);
 						}
 
 						if (main.dataFilter.g === "active") {
 							thisG = (Math.abs(d.tipVelocity[1] * 10).toFixed(1) * main.notch);
+						
+							var thisGData = main.oscColorScale(Math.abs(d.tipVelocity[1] * 10).toFixed(1) * main.notch);
+						
+							var msgName = 'finger' + d.id + 'Msg';
+
+							// send it via our socket
+							socket.emit(msgName, thisGData);
 						}
 
 						if (main.dataFilter.b === "active") {
 							thisB = (Math.abs(d.tipVelocity[2] * 10).toFixed(1) * main.notch);
+						
+							var thisBData = (Math.abs(d.tipVelocity[2] * 10).toFixed(1) * main.notch);
+
+							var msgName = 'finger' + d.id + 'Msg';
+
+							// send it via our socket
+							socket.emit(msgName, thisBData);
 						}
 
 					}
@@ -266,14 +304,35 @@ var main = {
 						// rgb corresponds to xyz
 						if (main.dataFilter.r === "active") {
 							thisR = main.colorScale(d.tipPosition[0]).toFixed(1);
+
+							var thisRPosData = main.oscPosScale( d.tipPosition[0].toFixed(1) );
+
+							var msgName = 'finger' + d.id + 'Msg';
+
+							// send it via our socket
+							socket.emit(msgName, thisRPosData);
 						}
 
 						if (main.dataFilter.g === "active") {
 							thisG = main.colorScale(d.tipPosition[1]).toFixed(1);
+
+							var thisGPosData = main.oscPosScale( d.tipPosition[1].toFixed(1) );
+
+							var msgName = 'finger' + d.id + 'Msg';
+
+							// send it via our socket
+							socket.emit(msgName, thisGPosData);
 						}
 
 						if (main.dataFilter.b === "active") {
 							thisB = main.colorScale(d.tipPosition[2]).toFixed(1);
+
+							var thisBPosData = main.oscPosScale( d.tipPosition[2].toFixed(1) );
+
+							var msgName = 'finger' + d.id + 'Msg';
+
+							// send it via our socket
+							socket.emit(msgName, thisBPosData);
 						}
 
 					}

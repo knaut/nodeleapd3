@@ -35,19 +35,80 @@ var io = io.listen(server);
 var osc = require('node-osc');
 var client = new osc.Client('127.0.0.1', 3333);
 
+// we define a fingerOsc obj
+// to manage sending our osc data
+var fingerOsc = {
+	
+	finger1Msg: null,
+	finger2Msg: null,
+	finger3Msg: null,
+	finger4Msg: null,
+	finger5Msg: null,
+
+	finger1Send: function( data ) {
+		this.finger1Msg = new osc.Message('/finger1', data);
+		console.log( this.finger1Msg );
+		client.send( this.finger1Msg );
+	},
+
+	finger2Send: function( data ) {
+		this.finger2Msg = new osc.Message('/finger2', data);
+		console.log( this.finger2Msg );
+		client.send( this.finger2Msg );
+	},
+
+	finger3Send: function( data ) {
+		this.finger3Msg = new osc.Message('/finger3', data);
+		console.log( this.finger3Msg );
+		client.send( this.finger3Msg );
+	},
+
+	finger4Send: function( data ) {
+		this.finger4Msg = new osc.Message('/finger4', data);
+		console.log( this.finger4Msg );
+		client.send( this.finger4Msg );
+	},
+
+	finger5Send: function( data ) {
+		this.finger5Msg = new osc.Message('/finger5', data);
+		console.log( this.finger5Msg );
+		client.send( this.finger5Msg );
+	},
+}
+
 // io stuff
 io.sockets.on('connection', function (socket) {
 
-	//socket.emit('event', { message: 'emitting!'});
-	
-	socket.on('msg', function (data) {
-		console.log(data);
+	// socket.emit('event', { message: 'emitting!'});
 
-		var msg = new osc.Message('/oscAddress', data);
-		
-		console.log(msg);
-		client.send(msg);
+	socket.on('finger1Msg', function (data) {
+		fingerOsc.finger1Send( data );
 	});
+
+	socket.on('finger2Msg', function (data) {
+		fingerOsc.finger2Send( data );
+	});
+
+	socket.on('finger3Msg', function (data) {
+		fingerOsc.finger3Send( data );
+	});
+
+	socket.on('finger4Msg', function (data) {
+		fingerOsc.finger4Send( data );
+	});
+
+	socket.on('finger5Msg', function (data) {
+		fingerOsc.finger5Send( data );
+	});
+
+	// socket.on('msg', function (data) {
+	// 	console.log(data);
+
+	// 	var msg = new osc.Message('/oscAddress', data);
+		
+	// 	console.log(msg);
+	// 	client.send(msg);
+	// });
 });
 
 // osc stuff
